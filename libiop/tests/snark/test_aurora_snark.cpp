@@ -118,6 +118,7 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
 }
 
 const mp_size_t sike_limbs = 7;
+// p = 2^206 * 3^138 + 1
 libff::bigint<sike_limbs> sike_modulus("71599874007847328765358823275754375837165371807895302279274826180288734099605400564365869155747905603218903398514311345729437697");
 typedef libff::Fp_model<sike_limbs, sike_modulus> Fp_sike;
 
