@@ -1,6 +1,6 @@
 /**@file
  *****************************************************************************
- Implementation of useful operations over vectors.
+ Large primes (> 400 bits) that have smooth multiplicative order.
  *****************************************************************************
  * @author     This file is part of libiop (see AUTHORS)
  * @copyright  MIT license (see LICENSE file)
