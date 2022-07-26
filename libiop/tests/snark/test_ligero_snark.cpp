@@ -117,6 +117,9 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
 
     const ligero_snark_argument<FieldT, binary_hash_digest> argument =
         ligero_snark_prover<FieldT, binary_hash_digest>(constraints, primary_input, auxiliary_input, parameters);
+    printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
+    printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
+    printf("argument size in bytes %lu\n", argument.size_in_bytes());
 
     const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
 
