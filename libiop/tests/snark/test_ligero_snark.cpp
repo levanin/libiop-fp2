@@ -1,14 +1,14 @@
+#include <chrono>
 #include <cstdint>
 
 #include <gtest/gtest.h>
-
 #include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
-
 #include <libff/algebra/fields/binary/gf64.hpp>
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/snark/ligero_snark.hpp"
 #include "libiop/bcs/common_bcs_parameters.hpp"
 #include "libiop/algebra/large_field.hpp"
+
 
 namespace libiop {
 
@@ -90,7 +90,6 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     /* Set up R1CS */
     sidh_field::init_params();
     typedef sidh_field::Fp FieldT;
-    typedef binary_hash_digest hash_type;
 
     const size_t num_constraints = 91204;
     const size_t num_inputs = 1;
@@ -115,13 +114,21 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     parameters.bcs_params_ = default_bcs_params<FieldT, binary_hash_digest>(
         blake2b_type, parameters.security_level_, constraint_dim);
 
+    auto prover_start = std::chrono::high_resolution_clock::now();
     const ligero_snark_argument<FieldT, binary_hash_digest> argument =
         ligero_snark_prover<FieldT, binary_hash_digest>(constraints, primary_input, auxiliary_input, parameters);
+    auto prover_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - prover_start);
+
+    auto verifier_start = std::chrono::high_resolution_clock::now();
+    const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
+    auto verifier_dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+
     printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
     printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
     printf("argument size in bytes %lu\n", argument.size_in_bytes());
 
-    const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
+    std::cout << "prover time (ms): " << prover_dur.count() << std::endl;
+    std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
     EXPECT_TRUE(bit);
 }
