@@ -250,7 +250,7 @@ int main(int argc, const char * argv[])
     printf("- field_size = %zu\n", default_vals.field_size);
     printf("- make_zk = %s\n", default_vals.make_zk ? "true" : "false");
     printf("- hash_enum = %s\n", bcs_hash_type_names[default_vals.hash_enum]);
-    
+
     if (default_vals.is_multiplicative) {
         switch (default_vals.field_size) {
             case 181:

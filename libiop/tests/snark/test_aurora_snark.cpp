@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <chrono>
 
 #include <gtest/gtest.h>
 
@@ -152,20 +153,28 @@ TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
         domain_type,
         num_constraints,
         num_variables);
+    auto prover_start = std::chrono::high_resolution_clock::now();
     const aurora_snark_argument<FieldT, hash_type> argument = aurora_snark_prover<FieldT>(
         r1cs_params.constraint_system_,
         r1cs_params.primary_input_,
         r1cs_params.auxiliary_input_,
         params);
+    auto prover_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - prover_start);
 
-    printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
-    printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
-    printf("argument size in bytes %lu\n", argument.size_in_bytes());
+    auto verifier_start = std::chrono::high_resolution_clock::now();
     const bool bit = aurora_snark_verifier<FieldT>(
         r1cs_params.constraint_system_,
         r1cs_params.primary_input_,
         argument,
         params);
+    auto verifier_dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+
+    printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
+    printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
+    printf("argument size in bytes %lu\n", argument.size_in_bytes());
+
+    std::cout << "prover time (ms): " << prover_dur.count() << std::endl;
+    std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
     EXPECT_TRUE(bit) << "test failed";
 }
