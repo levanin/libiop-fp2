@@ -121,7 +121,7 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
 
     auto verifier_start = std::chrono::high_resolution_clock::now();
     const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
-    auto verifier_dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+    auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
 
     printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
     printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());

@@ -167,7 +167,7 @@ TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
         r1cs_params.primary_input_,
         argument,
         params);
-    auto verifier_dur = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+    auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
 
     printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
     printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
