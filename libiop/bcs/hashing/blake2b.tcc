@@ -193,12 +193,12 @@ FieldT blake2b_FieldT_rejection_sample(
     bool valid = false;
     size_t cur_key = key;
     const size_t bits_per_limb = 8 * sizeof(mp_limb_t);
-    const size_t num_limbs = sizeof(el.mont_repr) / sizeof(mp_limb_t);
+    const size_t num_limbs = sizeof(0/*el.mont_repr*/) / sizeof(mp_limb_t);
     while (!valid)
     {
         /* crypto generichash is keyed */
-        const int status = crypto_generichash_blake2b((unsigned char*)&el.mont_repr,
-                                                      sizeof(el.mont_repr),
+        const int status = crypto_generichash_blake2b((unsigned char*)0/*&el.mont_repr*/,
+                                                      sizeof(0/*el.mont_repr*/),
                                                       root_plus_index,
                                                       root_plus_index_size,
                                                       (unsigned char*)&cur_key,
@@ -207,23 +207,23 @@ FieldT blake2b_FieldT_rejection_sample(
         {
             throw std::runtime_error("Got non-zero status from crypto_generichash_blake2b. (Is digest_len_bytes correct?)");
         }
-        /* clear all bits higher than MSB of modulus */
-        size_t bitno = sizeof(el.mont_repr) * 8 - 1;
-        while (FieldT::mod.test_bit(bitno) == false)
-        {
-            const std::size_t part = bitno / bits_per_limb;
-            const std::size_t bit = bitno - (bits_per_limb*part);
+        // /* clear all bits higher than MSB of modulus */
+        // size_t bitno = sizeof(el.mont_repr) * 8 - 1;
+        // while (FieldT::mod.test_bit(bitno) == false)
+        // {
+        //     const std::size_t part = bitno / bits_per_limb;
+        //     const std::size_t bit = bitno - (bits_per_limb*part);
 
-            el.mont_repr.data[part] &= ~(1ul<<bit);
-            bitno--;
-        }
-        /* if el.data is < modulus its valid, otherwise repeat (rejection sampling) */
-        if (mpn_cmp(el.mont_repr.data, FieldT::mod.data, num_limbs) < 0)
-        {
-            valid = true;
-        }
+        //     el.mont_repr.data[part] &= ~(1ul<<bit);
+        //     bitno--;
+        // }
+        // /* if el.data is < modulus its valid, otherwise repeat (rejection sampling) */
+        // if (mpn_cmp(el.mont_repr.data, FieldT::mod.data, num_limbs) < 0)
+        // {
+        //     valid = true;
+        // }
 
-        cur_key += key_increment;
+        // cur_key += key_increment;
     }
     return el;
 }

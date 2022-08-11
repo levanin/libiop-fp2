@@ -121,8 +121,8 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
 
 TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
     /* Set up R1CS */
-    sidh_field::init_params();
-    typedef sidh_field::Fp FieldT;
+    sidh_extra::init_params();
+    typedef sidh_extra::Fp FieldT;
     typedef binary_hash_digest hash_type;
 
     const size_t num_constraints = 1 << 17;

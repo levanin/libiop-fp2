@@ -34,39 +34,39 @@ template<typename FieldT>
 void multiplicative_subgroup_base<FieldT>::construct_internal(
     typename libff::enable_if<libff::is_multiplicative<FieldT>::value, FieldT>::type order, const FieldT generator)
 {
-    FieldT F_order = FieldT(FieldT::mod) - 1;
+    FieldT F_order; // = FieldT(FieldT::mod) - 1;
     // In debug mode, check that subgroup order divides the order of the field.
 #ifndef NDEBUG
-    mpz_t F_order_as_mpz;
-    mpz_t subgroup_order_as_mpz;
-    mpz_init(F_order_as_mpz);
-    mpz_init(subgroup_order_as_mpz);
-    F_order.as_bigint().to_mpz(F_order_as_mpz);
-    order.as_bigint().to_mpz(subgroup_order_as_mpz);
-    mpz_mod(subgroup_order_as_mpz, F_order_as_mpz, subgroup_order_as_mpz);
-    if (mpz_sgn(subgroup_order_as_mpz) != 0)
-    {
-        throw std::invalid_argument("The order of the subgroup must be a power of two.");
-    }
-    mpz_clear(F_order_as_mpz);
-    mpz_clear(subgroup_order_as_mpz);
+    // mpz_t F_order_as_mpz;
+    // mpz_t subgroup_order_as_mpz;
+    // mpz_init(F_order_as_mpz);
+    // mpz_init(subgroup_order_as_mpz);
+    // F_order.as_bigint().to_mpz(F_order_as_mpz);
+    // order.as_bigint().to_mpz(subgroup_order_as_mpz);
+    // mpz_mod(subgroup_order_as_mpz, F_order_as_mpz, subgroup_order_as_mpz);
+    // if (mpz_sgn(subgroup_order_as_mpz) != 0)
+    // {
+    //     throw std::invalid_argument("The order of the subgroup must be a power of two.");
+    // }
+    // mpz_clear(F_order_as_mpz);
+    // mpz_clear(subgroup_order_as_mpz);
 #endif // NDEBUG
 
     /** default argument */
     if (generator == FieldT::zero())
     {
-        this->g_ = (FieldT::multiplicative_generator)^((F_order * order.inverse()).as_bigint());
+        this->g_;// = (FieldT::multiplicative_generator)^((F_order * order.inverse()).as_bigint());
     }
     else
     {
         this->g_ = generator;
-        assert(libff::power(generator, order.as_ulong()) == FieldT::one());
+        // assert(libff::power(generator, order.as_ulong()) == FieldT::one());
     }
 
 
     this->elems_ = std::make_shared<std::vector<FieldT> >();
     this->fft_cache_ = std::make_shared<std::vector<FieldT> >();
-    this->order_ = order.as_ulong();
+    // this->order_ = order.as_ulong();
 
     if (libff::is_power_of_2(this->order_) && this->order_ > 1)
     {
