@@ -88,8 +88,8 @@ TEST(InterleavedR1CSSnarkMultiplicativeTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     /* Set up R1CS */
-    sidh_field::init_params();
-    typedef sidh_field::Fp FieldT;
+    sidh_extra::init_params();
+    typedef sidh_extra::Fp FieldT;
 
     const size_t num_constraints = 91204;
     const size_t num_inputs = 1;
@@ -131,6 +131,16 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
     EXPECT_TRUE(bit);
+}
+
+TEST(InterleavedR1CSSnarkLargeFp2Test, SimpleTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    auto a = FieldT(0,1);
+    auto b = FieldT(0,1);
+    auto c = a*b;
+    std::cout << c.c0.as_ulong() << ", " << c.c1.as_ulong() << "i" << std::endl;
 }
 
 }
