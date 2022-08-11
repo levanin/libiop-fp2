@@ -178,3 +178,20 @@ a Google Faculty Award;
 the Israel Science Foundation;
 the UC Berkeley Center for Long-Term Cybersecurity;
 and donations from the Ethereum Foundation, the Interchain Foundation, and Qtum.
+
+## Changes
+
+The original repo had submodules:
+```
+ e69890125746cdaf25b5b51227d96678f76479fe ../depends/ate-pairing (v1.2-70-ge698901)
+ d845b7b3a27d54ad96280a29d61fa8988d4fddcf ../depends/benchmark (v1.6.2)
+ 58d77fa8070e8cec2dc1ed015d66b454c8d78850 ../depends/gtest (release-1.8.0-2986-g58d77fa8)
+ 9769030a06b7ab933d6c064db120019decd359f1 ../depends/libff (v0.2.1-43-g9769030)
+ 7d460caa27b87574fe0e8144e6a3a66b7bcfe770 ../depends/libfqfft (remotes/origin/staging)
+ 811f4959ee0dd36a3ccedd2d4d7460472dd19a14 ../depends/xbyak (v3.71-528-g811f495)
+```
+
+But we've changed the libff and libfqfft to alternative versions that work with Fp2.
+- https://github.com/kc1212/libff.git
+- https://github.com/kc1212/libfqfft.git
+
