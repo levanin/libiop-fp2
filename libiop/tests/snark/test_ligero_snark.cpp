@@ -140,6 +140,7 @@ TEST(InterleavedR1CSSnarkLargeFp2Test, SimpleTest) {
     auto a = FieldT(0,1);
     auto b = FieldT(0,1);
     auto c = a*b;
+    c += FieldT(1,0);
     std::cout << c.c0.as_ulong() << ", " << c.c1.as_ulong() << "i" << std::endl;
 }
 
