@@ -38,11 +38,13 @@ def generate_libff_Fp_model_params(prime):
     nqr_to_t = pow(nqr, t, prime)
     print('nqr_to_t = {}'.format(nqr_to_t))
 
+
+    #montgomery reduction params
     word_len_64_bits = 64
     W_64_bits = 2**(word_len_64_bits)
     k_64_bits = ceil(num_bits/word_len_64_bits)
     print('k_64_bits (nb limbs) = {}'.format(k_64_bits))
-    R_64_bits = mod(W_64_bits**k_64_bits, prime); R_64_bits
+    R_64_bits = mod(W_64_bits**k_64_bits, prime); R_64_bits #why is this here
     Rsquared_64_bits = R_64_bits**2
     print('Rsquared_64_bits = {}'.format(Rsquared_64_bits))
     Rcubed_64_bits = R_64_bits**3
@@ -117,28 +119,5 @@ def generate_libff_Fp2_model_params(prime):
 
     print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
 
-    #unsure of this
-    word_len_64_bits = 64
-    W_64_bits = 2**(word_len_64_bits)
-    k_64_bits = ceil(num_bits/word_len_64_bits)
-    print('k_64_bits (nb limbs) = {}'.format(k_64_bits))
-    R_64_bits = mod(W_64_bits**k_64_bits, prime); R_64_bits
-    Rsquared_64_bits = R_64_bits**2
-    print('Rsquared_64_bits = {}'.format(Rsquared_64_bits))
-    Rcubed_64_bits = R_64_bits**3
-    print('Rcubed_64_bits = {}'.format(Rcubed_64_bits))
-    inv_64_bits = hex(int(mod((1/-prime), W_64_bits)))
-    print('inv_64_bits = {}'.format(inv_64_bits))
-    #unsure of this
-    word_len_32_bits = 32
-    W_32_bits = 2**(32)
-    k_32_bits = ceil(num_bits/word_len_32_bits)
-    print('k_32_bits (nb limbs) = {}'.format(k_32_bits))
-    R_32_bits = mod(W_32_bits**k_32_bits, prime); R_32_bits
-    Rsquared_32_bits = R_32_bits**2
-    print('Rsquared_32_bits = {}'.format(Rsquared_32_bits))
-    Rcubed_32_bits = R_32_bits**3
-    print('Rcubed_32_bits = {}'.format(Rcubed_32_bits))
-    inv_32_bits = hex(int(mod(1/-prime, W_32_bits)))
-    print('inv_32_bits = {}'.format(inv_32_bits))
 
+generate_libff_Fp_model_params(2^216*3^137 -1)
