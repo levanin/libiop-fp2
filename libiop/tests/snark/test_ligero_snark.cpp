@@ -8,6 +8,7 @@
 #include "libiop/snark/ligero_snark.hpp"
 #include "libiop/bcs/common_bcs_parameters.hpp"
 #include "libiop/algebra/large_field.hpp"
+#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 
 namespace libiop {
@@ -88,12 +89,12 @@ TEST(InterleavedR1CSSnarkMultiplicativeTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     /* Set up R1CS */
-    sidh_field::init_params();
-    typedef sidh_field::Fp FieldT;
+    libff::alt_bn128_pp::init_public_params();
+    typedef libff::alt_bn128_pp::Fp_type FieldT;
 
-    const size_t num_constraints = 91204;
-    const size_t num_inputs = 1;
-    const size_t num_variables = 91204 - 1;
+    const size_t num_constraints = 4000;
+    const size_t num_inputs = 255;
+    const size_t num_variables = num_constraints - 1;
     std::size_t constraint_dim = 302; // what is this?
     r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
 

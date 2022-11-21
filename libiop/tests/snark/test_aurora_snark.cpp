@@ -8,6 +8,7 @@
 #include "libiop/snark/aurora_snark.hpp"
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/algebra/large_field.hpp"
+#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 namespace libiop {
 
@@ -121,13 +122,13 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
 
 TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
     /* Set up R1CS */
-    sidh_field::init_params();
-    typedef sidh_field::Fp FieldT;
+    libff::alt_bn128_pp::init_public_params();
+    typedef libff::alt_bn128_pp::Fp_type FieldT;
     typedef binary_hash_digest hash_type;
 
-    const size_t num_constraints = 1 << 17;
-    const size_t num_inputs = 1;
-    const size_t num_variables = (1 << 17) - 1;
+    const size_t num_constraints = 1 << 12;
+    const size_t num_inputs = 511;
+    const size_t num_variables = num_constraints - 1;
     const size_t security_parameter = 128;
     const size_t RS_extra_dimensions = 2;
     const size_t FRI_localization_parameter = 3;
