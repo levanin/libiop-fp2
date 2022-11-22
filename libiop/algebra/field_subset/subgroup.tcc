@@ -53,7 +53,6 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
         {
             throw std::invalid_argument("The order of the subgroup must be a power of two.");
         }
-        mpz_clear(F_order_as_mpz);
         mpz_clear(subgroup_order_as_mpz);
 #endif // NDEBUG
 
@@ -64,6 +63,8 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
 
         this->g_ = FieldT::multiplicative_generator^F_order_as_mpz;
         assert(libff::power(this->g_, order.as_bigint()) == FieldT::one());
+        mpz_clear(order_as_mpz);
+        mpz_clear(F_order_as_mpz);
     }
     else
     {
