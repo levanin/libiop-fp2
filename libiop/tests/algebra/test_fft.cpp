@@ -8,6 +8,7 @@
 #include "libiop/algebra/utils.hpp"
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/field_subset/subspace.hpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -77,6 +78,40 @@ TEST(MultiplicativeSubgroupTest, SimpleTest) {
                 naive_FFT<FieldT>(poly_coeffs, domain);
             const std::vector<FieldT> interpolation =
                 multiplicative_IFFT<FieldT>(new_naive_result, domain.coset());
+
+            for (size_t i = 0; i < domain.num_elements(); ++i) {
+                EXPECT_TRUE(interpolation[i] == poly_coeffs[i]);
+            }
+        }
+    }
+}
+
+TEST(MultiplicativeSubgroupFp2Test, SimpleTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    for (size_t domain_dim = 1; domain_dim < 10; domain_dim++)
+    {
+        for (size_t poly_dim = 1; poly_dim <= domain_dim; poly_dim++)
+        {
+            std::vector<FieldT> poly_coeffs = elementwise_random_vector<FieldT>(1ull<<domain_dim);
+            field_subset<FieldT> domain(1ull << domain_dim);
+
+            /* Multiplicative equals naive */
+            const std::vector<FieldT> naive_result =
+                    naive_FFT<FieldT>(poly_coeffs, domain);
+            const std::vector<FieldT> multiplicative_result =
+                    multiplicative_FFT<FieldT>(poly_coeffs, domain.coset());
+
+            for (size_t i = 0; i < domain.num_elements(); ++i) {
+                EXPECT_TRUE(multiplicative_result[i] == naive_result[i]);
+            }
+
+            /* Inverse interpolates naive */
+            const std::vector<FieldT> new_naive_result =
+                    naive_FFT<FieldT>(poly_coeffs, domain);
+            const std::vector<FieldT> interpolation =
+                    multiplicative_IFFT<FieldT>(new_naive_result, domain.coset());
 
             for (size_t i = 0; i < domain.num_elements(); ++i) {
                 EXPECT_TRUE(interpolation[i] == poly_coeffs[i]);

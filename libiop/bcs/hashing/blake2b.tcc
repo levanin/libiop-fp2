@@ -192,13 +192,12 @@ FieldT blake2b_FieldT_rejection_sample(
     FieldT el;
     bool valid = false;
     size_t cur_key = key;
-    const size_t bits_per_limb = 8 * sizeof(mp_limb_t);
-    const size_t num_limbs = sizeof(el.mont_repr) / sizeof(mp_limb_t);
+    const size_t num_limbs = el.get_num_limbs();
     while (!valid)
     {
         /* crypto generichash is keyed */
-        const int status = crypto_generichash_blake2b((unsigned char*)&el.mont_repr,
-                                                      sizeof(el.mont_repr),
+        const int status = crypto_generichash_blake2b((unsigned char*)el.mont_repr_ptr(),
+                                                      el.mont_repr_size(),
                                                       root_plus_index,
                                                       root_plus_index_size,
                                                       (unsigned char*)&cur_key,
@@ -208,17 +207,10 @@ FieldT blake2b_FieldT_rejection_sample(
             throw std::runtime_error("Got non-zero status from crypto_generichash_blake2b. (Is digest_len_bytes correct?)");
         }
         /* clear all bits higher than MSB of modulus */
-        size_t bitno = sizeof(el.mont_repr) * 8 - 1;
-        while (FieldT::mod.test_bit(bitno) == false)
-        {
-            const std::size_t part = bitno / bits_per_limb;
-            const std::size_t bit = bitno - (bits_per_limb*part);
+        el.clear_bits_higher_than_mod();
 
-            el.mont_repr.data[part] &= ~(1ul<<bit);
-            bitno--;
-        }
         /* if el.data is < modulus its valid, otherwise repeat (rejection sampling) */
-        if (mpn_cmp(el.mont_repr.data, FieldT::mod.data, num_limbs) < 0)
+        if (mpn_cmp((mp_srcptr)el.mont_repr_ptr(), FieldT::mod.data, num_limbs) < 0)
         {
             valid = true;
         }
