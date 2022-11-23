@@ -92,6 +92,7 @@ TEST(MultiplicativeSubgroupFp2Test, SimpleTest) {
 
     for (size_t domain_dim = 1; domain_dim < 10; domain_dim++)
     {
+        // NOTE: poly_dim doesn't seem to be used?
         for (size_t poly_dim = 1; poly_dim <= domain_dim; poly_dim++)
         {
             std::vector<FieldT> poly_coeffs = elementwise_random_vector<FieldT>(1ull<<domain_dim);
