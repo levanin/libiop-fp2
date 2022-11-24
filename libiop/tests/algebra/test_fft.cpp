@@ -24,7 +24,17 @@ std::vector<FieldT> elementwise_random_vector(const std::size_t count)
 
     return result;
 }
+template<typename FieldT>
+std::vector<FieldT> identity_vector(const std::size_t count)
+{
+    std::vector<FieldT> result(count);
 
+    for (size_t i = 0; i < count; ++i) {
+        result[i] = FieldT::one();
+    }
+
+    return result;
+}
 TEST(AdditiveTest, SimpleTest) {
     typedef libff::gf64 FieldT;
 
@@ -95,7 +105,7 @@ TEST(MultiplicativeSubgroupFp2Test, SimpleTest) {
         // NOTE: poly_dim doesn't seem to be used?
         for (size_t poly_dim = 1; poly_dim <= domain_dim; poly_dim++)
         {
-            std::vector<FieldT> poly_coeffs = elementwise_random_vector<FieldT>(1ull<<domain_dim);
+            std::vector<FieldT> poly_coeffs = identity_vector<FieldT>(1ull<<domain_dim);
             field_subset<FieldT> domain(1ull << domain_dim);
 
             /* Multiplicative equals naive */
