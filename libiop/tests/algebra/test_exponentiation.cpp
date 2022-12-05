@@ -5,6 +5,7 @@
 #include <libff/algebra/fields/binary/gf64.hpp>
 #include <libff/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/algebra/exponentiation.hpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -63,6 +64,18 @@ TEST(ExponentiationTest, CosetElementPowersTest) {
 
         EXPECT_TRUE(S_to_i_naive == S_to_i);
     }
+}
+
+TEST(ExponentiationTest, CosetElementFp2PowersTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    FieldT two(-1, 0);
+    FieldT out;
+    out = two^2;
+
+    FieldT expected(1, 0);
+    EXPECT_TRUE(expected == out);
 }
 
 }

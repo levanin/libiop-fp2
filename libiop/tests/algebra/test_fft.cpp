@@ -78,7 +78,7 @@ TEST(MultiplicativeSubgroupTest, SimpleTest) {
                 naive_FFT<FieldT>(poly_coeffs, domain);
             const std::vector<FieldT> multiplicative_result =
                 multiplicative_FFT<FieldT>(poly_coeffs, domain.coset());
-            
+
             for (size_t i = 0; i < domain.num_elements(); ++i) {
                 EXPECT_TRUE(multiplicative_result[i] == naive_result[i]);
             }

@@ -62,14 +62,17 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
         mpz_fdiv_q(F_order_as_mpz, F_order_as_mpz, order_as_mpz);
 
         this->g_ = FieldT::multiplicative_generator^F_order_as_mpz;
-        assert(libff::power(this->g_, order.as_bigint()) == FieldT::one());
+
         mpz_clear(order_as_mpz);
         mpz_clear(F_order_as_mpz);
     }
     else
     {
         this->g_ = generator;
-        assert(libff::power(generator, order.as_bigint()) == FieldT::one());
+    }
+
+    if (libff::power(this->g_, order.as_bigint()) != FieldT::one()) {
+        throw std::runtime_error("bad subgroup generator");
     }
 
 
