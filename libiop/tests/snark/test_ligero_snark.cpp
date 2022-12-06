@@ -133,4 +133,51 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     EXPECT_TRUE(bit);
 }
 
+TEST(InterleavedR1CSSnarkFp2Test, SimpleTest) {
+    /* Set up R1CS */
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    const size_t num_constraints = 4096;
+    const size_t num_inputs = 1;
+    const size_t num_variables = num_constraints - 1;
+    std::size_t constraint_dim = 302; // what is this?
+    r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
+
+    r1cs_constraint_system<FieldT> constraints = ex.constraint_system_;
+    r1cs_primary_input<FieldT> primary_input = ex.primary_input_;
+    r1cs_auxiliary_input<FieldT> auxiliary_input = ex.auxiliary_input_;
+
+    EXPECT_TRUE(constraints.is_satisfied(primary_input, auxiliary_input));
+
+    /* Actual SNARK test */
+    ligero_snark_parameters<FieldT, binary_hash_digest> parameters;
+    parameters.security_level_ = 128;
+    parameters.height_width_ratio_ = 0.001;
+    parameters.RS_extra_dimensions_ = 2;
+    parameters.make_zk_ = true;
+    parameters.domain_type_ = multiplicative_coset_type;
+    parameters.LDT_reducer_soundness_type_ = LDT_reducer_soundness_type::proven;
+    parameters.bcs_params_ = default_bcs_params<FieldT, binary_hash_digest>(
+        blake2b_type, parameters.security_level_, constraint_dim);
+
+    auto prover_start = std::chrono::high_resolution_clock::now();
+    const ligero_snark_argument<FieldT, binary_hash_digest> argument =
+        ligero_snark_prover<FieldT, binary_hash_digest>(constraints, primary_input, auxiliary_input, parameters);
+    auto prover_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - prover_start);
+
+    auto verifier_start = std::chrono::high_resolution_clock::now();
+    const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
+    auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+
+    printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
+    printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
+    printf("argument size in bytes %lu\n", argument.size_in_bytes());
+
+    std::cout << "prover time (ms): " << prover_dur.count() << std::endl;
+    std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
+
+    EXPECT_TRUE(bit);
+}
+
 }

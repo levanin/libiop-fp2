@@ -14,6 +14,7 @@
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/relations/r1cs.hpp"
 #include "libiop/relations/variable.hpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -154,6 +155,25 @@ TEST(LigeroTrueMultiplicativeTest, SimpleTest) {
     EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, true, multiplicative_coset_type));
     EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, false, multiplicative_coset_type));
 }
+
+TEST(LigeroTrueMultiplicativeFp2Test, SimpleTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    std::size_t num_constraints = 16;
+    std::size_t num_inputs = 8;
+    std::size_t num_variables = 15;
+    r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
+    
+    r1cs_constraint_system<FieldT> constraint_system = ex.constraint_system_;
+    r1cs_primary_input<FieldT> primary_input = ex.primary_input_;
+    r1cs_auxiliary_input<FieldT> auxiliary_input = ex.auxiliary_input_;
+    
+    ASSERT_TRUE(constraint_system.is_satisfied(primary_input, auxiliary_input));
+    
+    EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, true, multiplicative_coset_type));
+    EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, false, multiplicative_coset_type));
+}
     
 TEST(LigeroWrongPrimaryInputTest, SimpleTest) {
     typedef libff::gf64 FieldT;
@@ -187,18 +207,18 @@ TEST(LigeroWrongPrimaryInputMultiplicativeTest, SimpleTest) {
     std::size_t num_inputs = 8;
     std::size_t num_variables = 15;
     r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
-    
+
     r1cs_constraint_system<FieldT> constraint_system = ex.constraint_system_;
     r1cs_primary_input<FieldT> primary_input = ex.primary_input_;
     r1cs_auxiliary_input<FieldT> auxiliary_input = ex.auxiliary_input_;
-    
+
     ASSERT_TRUE(constraint_system.is_satisfied(primary_input, auxiliary_input));
-    
+
     for (size_t i = 0; i < primary_input.size(); ++i)
     {
         primary_input[i] += FieldT(1);
     }
-    
+
     EXPECT_FALSE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, true, multiplicative_coset_type));
     EXPECT_FALSE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, false, multiplicative_coset_type));
 }

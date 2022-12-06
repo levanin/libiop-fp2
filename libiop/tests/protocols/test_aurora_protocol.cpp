@@ -12,6 +12,7 @@
 #include "libiop/relations/r1cs.hpp"
 #include "libiop/relations/variable.hpp"
 #include "libiop/tests/protocols/utilities.cpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -116,6 +117,12 @@ TEST(R1CSAdditiveProtocolTest, R1CSTest) {
 TEST(R1CSMultiplicativeProtocolTest, R1CSTest) {
     libff::edwards_pp::init_public_params();
     typedef libff::edwards_Fr FieldT;
+    run_test<FieldT>(multiplicative_coset_type);
+}
+
+TEST(R1CSMultiplicativeFp2ProtocolTest, R1CSTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
     run_test<FieldT>(multiplicative_coset_type);
 }
 

@@ -11,6 +11,7 @@
 #include "libiop/iop/iop.hpp"
 #include "libiop/protocols/encoded/ligero/interleaved_lincheck_ot.hpp"
 #include "libiop/relations/r1cs.hpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -238,6 +239,21 @@ TEST(InterleavedLincheckOTTrueMultiplicativeTest, SimpleTest) {
     typedef libff::edwards_Fr FieldT;
 
     for (size_t vector_size = 16; vector_size <= 128; vector_size *= 2)
+    {
+        std::vector<FieldT> input_vector = random_vector<FieldT>(vector_size);
+        naive_sparse_matrix<FieldT> constraint_matrix = random_matrix<FieldT>(vector_size);
+        std::vector<FieldT> target_vector = matrix_multiply(constraint_matrix, input_vector);
+
+        EXPECT_TRUE(run_test<FieldT>(constraint_matrix, input_vector, target_vector, vector_size, true, multiplicative_coset_type));
+        EXPECT_TRUE(run_test<FieldT>(constraint_matrix, input_vector, target_vector, vector_size, false, multiplicative_coset_type));
+    }
+}
+
+TEST(InterleavedLincheckOTTrueMultiplicativeFp2Test, SimpleTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    for (size_t vector_size = 16; vector_size <= 16; vector_size *= 2)
     {
         std::vector<FieldT> input_vector = random_vector<FieldT>(vector_size);
         naive_sparse_matrix<FieldT> constraint_matrix = random_matrix<FieldT>(vector_size);

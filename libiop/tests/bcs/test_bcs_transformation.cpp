@@ -14,6 +14,7 @@
 #include "libiop/bcs/bcs_verifier.hpp"
 #include "libiop/bcs/hashing/blake2b.hpp"
 #include "libiop/bcs/hashing/dummy_algebraic_hash.hpp"
+#include "libiop/algebra/large_field.hpp"
 
 namespace libiop {
 
@@ -427,6 +428,24 @@ TEST(MultiplicativeSingleOracleTest, BCSTest) {
         zk, preprocessing, expected_proof_size);
 
     zk = true;
+    expected_proof_size += zk_salt_size;
+    run_single_round_test<FieldT, binary_hash_digest>(codeword_domain, num_oracles, round_params, query_positions,
+        zk, preprocessing, expected_proof_size);
+}
+
+TEST(MultiplicativeSingleOracleFp2Test, BCSTest) {
+    /* TODO: Add more complex test cases */
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+    size_t dim = 6;
+    field_subset<FieldT> codeword_domain(1ull << dim);
+    size_t num_oracles = 1;
+    field_subset<FieldT> quotient_map_domain = codeword_domain.get_subset_of_order(4);
+    round_parameters<FieldT> round_params = round_parameters<FieldT>(quotient_map_domain);
+    std::vector<size_t> query_positions({0, 16, 32, 48});
+    bool zk = true;
+    bool preprocessing = false;
+    size_t expected_proof_size = 5*hash_size<binary_hash_digest>() + query_positions.size() * num_oracles*sizeof(FieldT);
     expected_proof_size += zk_salt_size;
     run_single_round_test<FieldT, binary_hash_digest>(codeword_domain, num_oracles, round_params, query_positions,
         zk, preprocessing, expected_proof_size);
