@@ -164,17 +164,17 @@ TEST(LigeroTrueMultiplicativeFp2Test, SimpleTest) {
     std::size_t num_inputs = 8;
     std::size_t num_variables = 15;
     r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
-    
+
     r1cs_constraint_system<FieldT> constraint_system = ex.constraint_system_;
     r1cs_primary_input<FieldT> primary_input = ex.primary_input_;
     r1cs_auxiliary_input<FieldT> auxiliary_input = ex.auxiliary_input_;
-    
+
     ASSERT_TRUE(constraint_system.is_satisfied(primary_input, auxiliary_input));
-    
+
     EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, true, multiplicative_coset_type));
     EXPECT_TRUE(run_test<FieldT>(constraint_system, primary_input, auxiliary_input, false, multiplicative_coset_type));
 }
-    
+
 TEST(LigeroWrongPrimaryInputTest, SimpleTest) {
     typedef libff::gf64 FieldT;
 

@@ -166,6 +166,41 @@ TEST(MultiplicativeCosetTest, SimpleTest) {
     }
 }
 
+TEST(MultiplicativeCosetFp2Test, SimpleTest) {
+    sidh::init_params();
+    typedef sidh::Fp2 FieldT;
+
+    for (size_t m = 1; m <= 11; ++m)
+    {
+        std::vector<FieldT> poly_coeffs = elementwise_random_vector<FieldT>(1ull<<m);
+        FieldT shift = FieldT::random_element();
+        shift.c1 = sidh::Fp(0);
+
+        field_subset<FieldT> domain = field_subset<FieldT>(
+                multiplicative_coset<FieldT>(1ull<<m, shift));
+
+        /* Multiplicative equals naive */
+        const std::vector<FieldT> naive_result =
+                naive_FFT<FieldT>(poly_coeffs, domain);
+        const std::vector<FieldT> multiplicative_result =
+                multiplicative_FFT<FieldT>(poly_coeffs, domain.coset());
+
+        for (size_t i = 0; i < domain.num_elements(); ++i) {
+            EXPECT_TRUE(multiplicative_result[i] == naive_result[i]);
+        }
+
+        /* Inverse interpolates naive */
+        const std::vector<FieldT> new_naive_result =
+                naive_FFT<FieldT>(poly_coeffs, domain);
+        const std::vector<FieldT> interpolation =
+                multiplicative_IFFT<FieldT>(new_naive_result, domain.coset());
+
+        for (size_t i = 0; i < domain.num_elements(); ++i) {
+            EXPECT_TRUE(interpolation[i] == poly_coeffs[i]);
+        }
+    }
+}
+
 TEST(ExtendedRangeTest, SimpleTest) {
     typedef libff::gf64 FieldT;
 

@@ -92,7 +92,7 @@ bool run_test(naive_sparse_matrix<FieldT> &constraint_matrix,
 
     const std::size_t systematic_domain_size = 1ull << systematic_domain_dim;
     const std::size_t extended_systematic_domain_size = 1ull << (systematic_domain_dim + 1);
-    
+
     const FieldT shift(3);
 
     field_subset<FieldT> codeword_domain(codeword_domain_size);
