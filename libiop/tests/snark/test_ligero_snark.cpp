@@ -91,9 +91,9 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
     sidh_extra::init_params();
     typedef sidh_extra::Fp FieldT;
 
-    const size_t num_constraints = 91204;
+    const size_t num_constraints = 4096;
     const size_t num_inputs = 1;
-    const size_t num_variables = 91204 - 1;
+    const size_t num_variables = num_constraints - 1;
     std::size_t constraint_dim = 302; // what is this?
     r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
 
@@ -138,7 +138,7 @@ TEST(InterleavedR1CSSnarkFp2Test, SimpleTest) {
     sidh::init_params();
     typedef sidh::Fp2 FieldT;
 
-    const size_t num_constraints = 4096;
+    const size_t num_constraints = 1024;
     const size_t num_inputs = 1;
     const size_t num_variables = num_constraints - 1;
     std::size_t constraint_dim = 302; // what is this?
