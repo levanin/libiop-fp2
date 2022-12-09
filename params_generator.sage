@@ -120,4 +120,4 @@ def generate_libff_Fp2_model_params(prime):
     print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
 
 
-generate_libff_Fp_model_params(2^216*3^137 -1)
+generate_libff_Fp2_model_params(2^216*3^137 -1)

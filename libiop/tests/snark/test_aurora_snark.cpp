@@ -120,6 +120,7 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
 }
 
 TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
+    libff::inhibit_profiling_counters = true;
     /* Set up R1CS */
     sidh_extra::init_params();
     typedef sidh_extra::Fp FieldT;
@@ -180,6 +181,7 @@ TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
 }
 
 TEST(AuroraSnarkFp2Test, SimpleTest) {
+    libff::inhibit_profiling_counters = true;
     /* Set up R1CS */
     sidh::init_params();
     typedef sidh::Fp2 FieldT;
