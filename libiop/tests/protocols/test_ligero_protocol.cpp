@@ -14,7 +14,7 @@
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/relations/r1cs.hpp"
 #include "libiop/relations/variable.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -157,8 +157,8 @@ TEST(LigeroTrueMultiplicativeTest, SimpleTest) {
 }
 
 TEST(LigeroTrueMultiplicativeFp2Test, SimpleTest) {
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     std::size_t num_constraints = 16;
     std::size_t num_inputs = 8;

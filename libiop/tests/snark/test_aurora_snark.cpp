@@ -7,7 +7,7 @@
 #include <libff/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/snark/aurora_snark.hpp"
 #include "libiop/relations/examples/r1cs_examples.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -119,11 +119,11 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
     }
 }
 
-TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
+TEST(AuroraSnarkFpTest, SimpleTest) {
     libff::inhibit_profiling_counters = true;
     /* Set up R1CS */
-    sidh_extra::init_params();
-    typedef sidh_extra::Fp FieldT;
+    p434_smooth::init_params();
+    typedef p434_smooth::Fp FieldT;
     typedef binary_hash_digest hash_type;
 
     const size_t num_constraints = 4096;
@@ -180,16 +180,20 @@ TEST(AuroraSnarkLargeFieldTest, SimpleTest) {
     EXPECT_TRUE(bit) << "test failed";
 }
 
-TEST(AuroraSnarkFp2Test, SimpleTest) {
+/**
+ * Test Aurora on the proof of isogeny path circuit
+ * @tparam FieldT
+ * @param m number of constraints
+ * @param n number of variables
+ */
+template<typename FieldT>
+void test_isogeny_pok_fp2(size_t m, size_t n) {
     libff::inhibit_profiling_counters = true;
-    /* Set up R1CS */
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
     typedef binary_hash_digest hash_type;
 
-    const size_t num_constraints = 1024;
-    const size_t num_inputs = 1;
-    const size_t num_variables = num_constraints - num_inputs;
+    const size_t num_constraints = m;
+    const size_t num_variables = n;
+    const size_t num_inputs = num_constraints - num_variables;
     const size_t security_parameter = 128;
     const size_t RS_extra_dimensions = 2;
     const size_t FRI_localization_parameter = 3;
@@ -239,6 +243,20 @@ TEST(AuroraSnarkFp2Test, SimpleTest) {
     std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
     EXPECT_TRUE(bit) << "test failed";
+
+}
+
+TEST(AuroraSnarkFp2Test434, SimpleTest) {
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
+    test_isogeny_pok_fp2<FieldT>(1024, 1023);
+}
+
+
+TEST(AuroraSnarkFp2Test503, SimpleTest) {
+    p503::init_params();
+    typedef p503::Fp2 FieldT;
+    test_isogeny_pok_fp2<FieldT>(1024, 1023);
 }
 
 }

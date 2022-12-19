@@ -5,7 +5,7 @@
 #include <libff/algebra/fields/binary/gf64.hpp>
 #include <libff/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/algebra/exponentiation.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -67,8 +67,8 @@ TEST(ExponentiationTest, CosetElementPowersTest) {
 }
 
 TEST(ExponentiationTest, CosetElementFp2PowersTest) {
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     FieldT two(-1, 0);
     FieldT out;

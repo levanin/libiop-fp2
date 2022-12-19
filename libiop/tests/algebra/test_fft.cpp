@@ -8,7 +8,7 @@
 #include "libiop/algebra/utils.hpp"
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/field_subset/subspace.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -87,8 +87,8 @@ TEST(MultiplicativeSubgroupTest, SimpleTest) {
 }
 
 TEST(MultiplicativeSubgroupFp2Test, SimpleTest) {
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     for (size_t domain_dim = 1; domain_dim < 10; domain_dim++)
     {
@@ -157,8 +157,8 @@ TEST(MultiplicativeCosetTest, SimpleTest) {
 }
 
 TEST(MultiplicativeCosetFp2Test, SimpleTest) {
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     for (size_t m = 1; m <= 11; ++m)
     {

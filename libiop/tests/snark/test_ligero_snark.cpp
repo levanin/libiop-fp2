@@ -7,7 +7,7 @@
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/snark/ligero_snark.hpp"
 #include "libiop/bcs/common_bcs_parameters.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 
 namespace libiop {
@@ -86,10 +86,10 @@ TEST(InterleavedR1CSSnarkMultiplicativeTest, SimpleTest) {
     EXPECT_TRUE(bit);
 }
 
-TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
+TEST(InterleavedR1CSSnarkFpTest, SimpleTest) {
     /* Set up R1CS */
-    sidh_extra::init_params();
-    typedef sidh_extra::Fp FieldT;
+    p434_smooth::init_params();
+    typedef p434_smooth::Fp FieldT;
 
     const size_t num_constraints = 4096;
     const size_t num_inputs = 1;
@@ -135,8 +135,8 @@ TEST(InterleavedR1CSSnarkLargePrimeTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkFp2Test, SimpleTest) {
     /* Set up R1CS */
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     const size_t num_constraints = 1024;
     const size_t num_inputs = 1;

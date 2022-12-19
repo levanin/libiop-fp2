@@ -11,7 +11,7 @@
 #include "libiop/iop/iop.hpp"
 #include "libiop/protocols/encoded/ligero/interleaved_lincheck_ot.hpp"
 #include "libiop/relations/r1cs.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -250,8 +250,8 @@ TEST(InterleavedLincheckOTTrueMultiplicativeTest, SimpleTest) {
 }
 
 TEST(InterleavedLincheckOTTrueMultiplicativeFp2Test, SimpleTest) {
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
 
     for (size_t vector_size = 16; vector_size <= 16; vector_size *= 2)
     {

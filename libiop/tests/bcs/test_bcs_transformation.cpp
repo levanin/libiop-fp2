@@ -14,7 +14,7 @@
 #include "libiop/bcs/bcs_verifier.hpp"
 #include "libiop/bcs/hashing/blake2b.hpp"
 #include "libiop/bcs/hashing/dummy_algebraic_hash.hpp"
-#include "libiop/algebra/large_field.hpp"
+#include "libiop/algebra/isogeny_field.hpp"
 
 namespace libiop {
 
@@ -435,8 +435,8 @@ TEST(MultiplicativeSingleOracleTest, BCSTest) {
 
 TEST(MultiplicativeSingleOracleFp2Test, BCSTest) {
     /* TODO: Add more complex test cases */
-    sidh::init_params();
-    typedef sidh::Fp2 FieldT;
+    p434::init_params();
+    typedef p434::Fp2 FieldT;
     size_t dim = 6;
     field_subset<FieldT> codeword_domain(1ull << dim);
     size_t num_oracles = 1;
