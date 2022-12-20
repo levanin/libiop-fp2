@@ -120,6 +120,24 @@ def generate_libff_Fp2_model_params(prime):
     print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
 
 
+print("--------------- p256+ ----------------------")
+generate_libff_Fp_model_params(2^248*207 + 1)
+print("--------------- p441+ ----------------------")
+generate_libff_Fp_model_params(2^218*3^138*37 + 1)
+print("--------------- p503+ ----------------------")
+generate_libff_Fp_model_params(2^249*3^158*11 + 1)
+print("--------------- p610+ ----------------------")
+generate_libff_Fp_model_params(2^302*3^190*91 + 1)
+print("--------------- p751+ ----------------------")
+generate_libff_Fp_model_params(2^374*3^236*5 + 1)
+print()
+
+print("--------------- p256 Fp --------------------")
+generate_libff_Fp_model_params(2^247 * 321 - 1)
+print("--------------- p256 Fp2 -------------------")
+generate_libff_Fp2_model_params(2^247 * 321 - 1)
+print()
+
 print("--------------- p434 Fp --------------------")
 generate_libff_Fp_model_params(2^216*3^137 - 1)
 print("--------------- p434 Fp2 -------------------")
@@ -143,5 +161,3 @@ generate_libff_Fp_model_params(2^0x174*3^0xef - 1)
 print("--------------- p751 Fp2 -------------------")
 generate_libff_Fp2_model_params(2^0x174*3^0xef - 1)
 print()
-
-
