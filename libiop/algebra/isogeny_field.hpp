@@ -34,7 +34,22 @@ namespace libiop {
         typedef libff::Fp_model<limbs, modulus> Fp;
         typedef libff::Fp2_model<limbs, modulus> Fp2;
         void init_params();
+    }
 
+    namespace p610 {
+        const mp_size_t limbs = 10;
+        libff::bigint<limbs> modulus("2638940411073262671963620699288286770183560231187222316750407556465639836010558150163225530335162533481049256757217964651333810422125728537407397155806079217346919294449255613110157311");
+        typedef libff::Fp_model<limbs, modulus> Fp;
+        typedef libff::Fp2_model<limbs, modulus> Fp2;
+        void init_params();
+    }
+
+    namespace p751 {
+        const mp_size_t limbs = 12;
+        libff::bigint<limbs> modulus("10354717741769305252977768237866805321427389645549071170116189679054678940682478846502882896561066713624553211618840202385203911976522554393044160468771151816976706840078913334358399730952774926980235086850991501872665651576831");
+        typedef libff::Fp_model<limbs, modulus> Fp;
+        typedef libff::Fp2_model<limbs, modulus> Fp2;
+        void init_params();
     }
 
 } // namespace libiop

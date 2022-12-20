@@ -197,7 +197,7 @@ FieldT blake2b_FieldT_rejection_sample(
     {
         /* crypto generichash is keyed */
         const int status = crypto_generichash_blake2b((unsigned char*)el.mont_repr_ptr(),
-                                                      el.mont_repr_size(),
+                                                      std::min(el.mont_repr_size(), static_cast<std::size_t>(crypto_generichash_blake2b_BYTES_MAX)),
                                                       root_plus_index,
                                                       root_plus_index_size,
                                                       (unsigned char*)&cur_key,

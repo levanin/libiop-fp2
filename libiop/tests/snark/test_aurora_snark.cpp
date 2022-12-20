@@ -259,4 +259,16 @@ TEST(AuroraSnarkFp2Test503, SimpleTest) {
     test_isogeny_pok_fp2<FieldT>(1024, 1023);
 }
 
+TEST(AuroraSnarkFp2Test610, SimpleTest) {
+    p610::init_params();
+    typedef p610::Fp2 FieldT;
+    test_isogeny_pok_fp2<FieldT>(2048, 2047);
+}
+
+TEST(AuroraSnarkFp2Test751, SimpleTest) {
+    p751::init_params();
+    typedef p751::Fp2 FieldT;
+    test_isogeny_pok_fp2<FieldT>(2048, 2047);
+}
+
 }
