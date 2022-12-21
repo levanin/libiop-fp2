@@ -173,17 +173,17 @@ generate_libff_Fp_model_params((2^372)*(3^239)*701 + 1).print_libiop("p761+")
 print()
 
 generate_libff_Fp_model_params(2^216*3^137 - 1).print_libiop("p434")
-generate_libff_Fp2_model_params(2^216*3^137 - 1).print_libiop("p434")
+generate_libff_Fp2_model_params(2^216*3^137 - 1).print_libiop("p434x")
 print()
 
 generate_libff_Fp_model_params(2^0xfa*3^0x9f - 1).print_libiop("p503")
-generate_libff_Fp2_model_params(2^0xfa*3^0x9f - 1).print_libiop("p503")
+generate_libff_Fp2_model_params(2^0xfa*3^0x9f - 1).print_libiop("p503x")
 print()
 
 generate_libff_Fp_model_params(2^0x131*3^0xc0 - 1).print_libiop("p610")
-generate_libff_Fp2_model_params(2^0x131*3^0xc0 - 1).print_libiop("p610")
+generate_libff_Fp2_model_params(2^0x131*3^0xc0 - 1).print_libiop("p610x")
 print()
 
 generate_libff_Fp_model_params(2^0x174*3^0xef - 1).print_libiop("p751")
-generate_libff_Fp2_model_params(2^0x174*3^0xef - 1).print_libiop("p751")
+generate_libff_Fp2_model_params(2^0x174*3^0xef - 1).print_libiop("p751x")
 print()
