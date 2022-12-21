@@ -119,16 +119,15 @@ TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
     }
 }
 
-TEST(AuroraSnarkFpTest, SimpleTest) {
+
+template<typename FieldT>
+void test_isogeny_pok_fp(size_t m, size_t n) {
     libff::inhibit_profiling_counters = true;
-    /* Set up R1CS */
-    p434_smooth::init_params();
-    typedef p434_smooth::Fp FieldT;
     typedef binary_hash_digest hash_type;
 
-    const size_t num_constraints = 4096;
-    const size_t num_inputs = 1;
-    const size_t num_variables = num_constraints - num_inputs;
+    const size_t num_constraints = m;
+    const size_t num_variables = n;
+    const size_t num_inputs = num_constraints - num_variables;
     const size_t security_parameter = 128;
     const size_t RS_extra_dimensions = 2;
     const size_t FRI_localization_parameter = 3;
@@ -137,37 +136,37 @@ TEST(AuroraSnarkFpTest, SimpleTest) {
     const field_subset_type domain_type = multiplicative_coset_type;
 
     r1cs_example<FieldT> r1cs_params = generate_r1cs_example<FieldT>(
-        num_constraints, num_inputs, num_variables);
+            num_constraints, num_inputs, num_variables);
     EXPECT_TRUE(r1cs_params.constraint_system_.is_satisfied(
-        r1cs_params.primary_input_, r1cs_params.auxiliary_input_));
+            r1cs_params.primary_input_, r1cs_params.auxiliary_input_));
 
     /* Actual SNARK test */
     const bool make_zk = true;
     aurora_snark_parameters<FieldT, hash_type> params(
-        security_parameter,
-        ldt_reducer_soundness_type,
-        fri_soundness_type,
-        blake2b_type,
-        FRI_localization_parameter,
-        RS_extra_dimensions,
-        make_zk,
-        domain_type,
-        num_constraints,
-        num_variables);
+            security_parameter,
+            ldt_reducer_soundness_type,
+            fri_soundness_type,
+            blake2b_type,
+            FRI_localization_parameter,
+            RS_extra_dimensions,
+            make_zk,
+            domain_type,
+            num_constraints,
+            num_variables);
     auto prover_start = std::chrono::high_resolution_clock::now();
     const aurora_snark_argument<FieldT, hash_type> argument = aurora_snark_prover<FieldT>(
-        r1cs_params.constraint_system_,
-        r1cs_params.primary_input_,
-        r1cs_params.auxiliary_input_,
-        params);
+            r1cs_params.constraint_system_,
+            r1cs_params.primary_input_,
+            r1cs_params.auxiliary_input_,
+            params);
     auto prover_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - prover_start);
 
     auto verifier_start = std::chrono::high_resolution_clock::now();
     const bool bit = aurora_snark_verifier<FieldT>(
-        r1cs_params.constraint_system_,
-        r1cs_params.primary_input_,
-        argument,
-        params);
+            r1cs_params.constraint_system_,
+            r1cs_params.primary_input_,
+            argument,
+            params);
     auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
 
     printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
@@ -178,6 +177,12 @@ TEST(AuroraSnarkFpTest, SimpleTest) {
     std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
     EXPECT_TRUE(bit) << "test failed";
+}
+
+TEST(AuroraSnarkFpTest441, SimpleTest) {
+    p441_plus::init_params();
+    typedef p441_plus::Fp FieldT;
+    test_isogeny_pok_fp<FieldT>(4096, 4095);
 }
 
 /**

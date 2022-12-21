@@ -12,10 +12,9 @@
 #include <libff/algebra/fields/prime_extension/fp2.hpp>
 
 namespace libiop {
-    namespace p434_smooth {
+    namespace p441_plus {
         const mp_size_t limbs = 7;
-        // p = 2^206 * 3^138 + 1
-        libff::bigint<limbs> modulus("71599874007847328765358823275754375837165371807895302279274826180288734099605400564365869155747905603218903398514311345729437697");
+        libff::bigint<limbs> modulus("10851104105637278369047660385087127166874086428230148851028658457275118230263397666330776202291906589979031247851640913067987741704193");
         typedef libff::Fp_model<limbs, modulus> Fp;
         void init_params();
     }

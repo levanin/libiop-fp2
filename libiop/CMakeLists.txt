@@ -400,3 +400,12 @@ add_test(
   NAME test_linking
   COMMAND test_linking
 )
+
+add_executable(main main.cpp)
+target_link_libraries(main iop)
+target_include_directories(main
+        PUBLIC
+        ../depends/libfqfft
+        ../depends/libff
+        ../depends/gtest/googletest/include
+        )
