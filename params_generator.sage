@@ -159,11 +159,17 @@ def generate_libff_Fp2_model_params(prime):
     # print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
     return Fp2Param(prime, num_bits, euler, s, t, t_minus_1_over_2, multiplicative_gen, root_of_unity, nqr, nqr_to_t, 1, prime-1)
 
+# Not in use
+# generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
+# generate_libff_Fp_model_params(2^249*3^158*11 + 1).print_libiop("p503+")
+# generate_libff_Fp_model_params(2^302*3^190*91 + 1).print_libiop("p610+")
+# generate_libff_Fp_model_params(2^374*3^236*5 + 1).print_libiop("p751+")
+# print()
 
 generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
-generate_libff_Fp_model_params(2^249*3^158*11 + 1).print_libiop("p503+")
-generate_libff_Fp_model_params(2^302*3^190*91 + 1).print_libiop("p610+")
-generate_libff_Fp_model_params(2^374*3^236*5 + 1).print_libiop("p751+")
+generate_libff_Fp_model_params(2^252*3^159*31 + 1).print_libiop("p509+")
+generate_libff_Fp_model_params((2^307)*(3^192)*119 + 1).print_libiop("p619+")
+generate_libff_Fp_model_params((2^372)*(3^239)*701 + 1).print_libiop("p761+")
 print()
 
 generate_libff_Fp_model_params(2^216*3^137 - 1).print_libiop("p434")
