@@ -60,19 +60,21 @@ namespace libiop {
                 r1cs_params.primary_input_,
                 argument,
                 params);
-        auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::high_resolution_clock::now() - verifier_start);
+        if (!bit) {
+            throw std::runtime_error("failed");
+        }
 
         printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
         printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
         printf("argument size in bytes %lu\n", argument.size_in_bytes());
 
+        auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::high_resolution_clock::now() - verifier_start);
         std::cout << "prover time (ms): " << prover_dur.count() << std::endl;
         std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
-        if (!bit) {
-            throw std::runtime_error("failed");
-        }
+        // we put a prefix in front so that it can be parsed later on to a csv
+        std::cout << "====>" << prover_dur.count() << "," << verifier_dur.count() << "," << argument.size_in_bytes() << std::endl;
     }
 
     template<typename FieldT>
@@ -109,18 +111,20 @@ namespace libiop {
 
         auto verifier_start = std::chrono::high_resolution_clock::now();
         const bool bit = ligero_snark_verifier<FieldT, binary_hash_digest>(constraints, primary_input, argument, parameters);
-        auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
+        if (!bit) {
+            throw std::runtime_error("failed");
+        }
 
         printf("iop size in bytes %lu\n", argument.IOP_size_in_bytes());
         printf("bcs size in bytes %lu\n", argument.BCS_size_in_bytes());
         printf("argument size in bytes %lu\n", argument.size_in_bytes());
 
+        auto verifier_dur = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - verifier_start);
         std::cout << "prover time (ms): " << prover_dur.count() << std::endl;
         std::cout << "verifier time (ms): " << verifier_dur.count() << std::endl;
 
-        if (!bit) {
-            throw std::runtime_error("failed");
-        }
+        // we put a prefix in front so that it can be parsed later on to a csv
+        std::cout << "====>" << prover_dur.count() << "," << verifier_dur.count() << "," << argument.size_in_bytes() << std::endl;
     }
 }
 
@@ -131,10 +135,14 @@ int main(int argc, const char* argv[]) {
             ("base_field", "the base field of the circuit in the format p{num_bits}{x,+,+x,}", cxxopts::value<std::string>()->default_value("p434x"))
             ("m", "number of constraints", cxxopts::value<size_t>()->default_value("1024"))
             ("n", "number of variables", cxxopts::value<size_t>()->default_value("1023"))
-            ("output_prefix", "the output prefix to simplify parsing", cxxopts::value<std::string>()->default_value("===="))
+            ("h,help", "pring usage")
             ;
 
     auto result = options.parse(argc, argv);
+    if (result.count("help")) {
+        std::cout << options.help() << std::endl;
+        return 0;
+    }
     auto proof_system = result["proof_system"].as<std::string>();
     auto base_field = result["base_field"].as<std::string>();
     auto m = result["m"].as<size_t>();
