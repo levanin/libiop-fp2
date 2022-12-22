@@ -112,8 +112,7 @@ def generate_libff_Fp_model_params(prime):
     # Rcubed_32_bits = R_32_bits**3
     # inv_32_bits = hex(int(mod(1/-prime, W_32_bits)))
 
-
-def generate_libff_Fp2_model_params(prime):
+def generate_libff_Fp2_model_params(prime, a=None):
     #requires p = 3 mod 4
     #uses twice the number of bits for an element
     num_bits = ceil(2*log(prime,2))
@@ -122,9 +121,17 @@ def generate_libff_Fp2_model_params(prime):
     mult_group_size = (prime^2 - 1)
     euler = (mult_group_size)/2
 
-    factorization = factor(mult_group_size)
-    t = 0
-    term_2 = factorization[0]
+    if a is None:
+        #the line below is what lead to inefficiency in param generation.
+        #what we need is to find the tuple (2,n) where 2^n divides p^2 -1. Trivially this is
+        #a+1
+        factorization = factor(mult_group_size)
+        t = 0
+        term_2 = factorization[0]
+    else:
+        #input power a of p = 2^a*3^b +/- 1
+        #much faster
+        term_2 = [2, a+1]
     counter = 0
     if term_2[0] != 2:
         raise BaseException("The prime decomposition doesn't have any factor 2."
@@ -142,8 +149,15 @@ def generate_libff_Fp2_model_params(prime):
     is_odd(t)
 
     t_minus_1_over_2 = (t-1)/2
+    if (prime % 4) == 3:
+        F.<i> = GF(prime^2, modulus=x^2+1)
+        fp_quadratic_nonresidue = prime -1
+    elif (prime % 4) == 1:
+        F.<i> = GF(prime^2, modulus=x^2+x-1)
+        fp_quadratic_nonresidue = least_quadratic_nonresidue(prime)
+    else:
+        raise "Prime is not 1 or 3 mod 4"
 
-    F.<i> = GF(prime^2, modulus=x^2+1)
     multiplicative_gen = F.multiplicative_generator()
 
     #Calculate the maximal 2-th power root of unity
@@ -157,7 +171,7 @@ def generate_libff_Fp2_model_params(prime):
     #frobenius to even powers is always identity map
     # print('Frobenius_coeffs_c1[0] = {}'.format(1))
     # print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
-    return Fp2Param(prime, num_bits, euler, s, t, t_minus_1_over_2, multiplicative_gen, root_of_unity, nqr, nqr_to_t, 1, prime-1)
+    return Fp2Param(prime, num_bits, euler, s, t, t_minus_1_over_2, multiplicative_gen, root_of_unity, nqr, nqr_to_t, 1, fp_quadratic_nonresidue)
 
 # Not in use
 # generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
@@ -167,23 +181,27 @@ def generate_libff_Fp2_model_params(prime):
 # print()
 
 generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
+generate_libff_Fp2_model_params(2^218*3^138*37 + 1,218).print_libiop("p441+x")
 generate_libff_Fp_model_params(2^252*3^159*31 + 1).print_libiop("p509+")
+generate_libff_Fp2_model_params(2^252*3^159*31 + 1,252).print_libiop("p509+x")
 generate_libff_Fp_model_params((2^307)*(3^192)*119 + 1).print_libiop("p619+")
+generate_libff_Fp2_model_params((2^307)*(3^192)*119 + 1,307).print_libiop("p619+x")
 generate_libff_Fp_model_params((2^372)*(3^239)*701 + 1).print_libiop("p761+")
+generate_libff_Fp2_model_params((2^372)*(3^239)*701 + 1,372).print_libiop("p761+x")
 print()
 
 generate_libff_Fp_model_params(2^216*3^137 - 1).print_libiop("p434")
-generate_libff_Fp2_model_params(2^216*3^137 - 1).print_libiop("p434x")
+generate_libff_Fp2_model_params(2^216*3^137 - 1, 216).print_libiop("p434x")
 print()
 
 generate_libff_Fp_model_params(2^0xfa*3^0x9f - 1).print_libiop("p503")
-generate_libff_Fp2_model_params(2^0xfa*3^0x9f - 1).print_libiop("p503x")
+generate_libff_Fp2_model_params(2^0xfa*3^0x9f - 1, 0xfa).print_libiop("p503x")
 print()
 
 generate_libff_Fp_model_params(2^0x131*3^0xc0 - 1).print_libiop("p610")
-generate_libff_Fp2_model_params(2^0x131*3^0xc0 - 1).print_libiop("p610x")
+generate_libff_Fp2_model_params(2^0x131*3^0xc0 - 1, 0x131).print_libiop("p610x")
 print()
 
 generate_libff_Fp_model_params(2^0x174*3^0xef - 1).print_libiop("p751")
-generate_libff_Fp2_model_params(2^0x174*3^0xef - 1).print_libiop("p751x")
+generate_libff_Fp2_model_params(2^0x174*3^0xef - 1, 0x174).print_libiop("p751x")
 print()

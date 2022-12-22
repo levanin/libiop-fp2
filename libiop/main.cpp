@@ -161,13 +161,25 @@ int main(int argc, const char* argv[]) {
             libiop::p503::init_params();
             typedef libiop::p503::Fp2 FieldT;
             libiop::aurora_isogeny_pok<FieldT>(m, n);
+        } else if ("p509+" == base_field) {
+            libiop::p509_plus::init_params();
+            typedef libiop::p509_plus::Fp FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n);
         } else if ("p610x" == base_field) {
             libiop::p610::init_params();
             typedef libiop::p610::Fp2 FieldT;
             libiop::aurora_isogeny_pok<FieldT>(m, n);
+        } else if ("p619plus" == base_field) {
+            libiop::p619_plus::init_params();
+            typedef libiop::p619_plus::Fp FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n);
         } else if ("p751x" == base_field) {
             libiop::p751::init_params();
             typedef libiop::p751::Fp2 FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n);
+        } else if ("p761+" == base_field) {
+            libiop::p761_plus::init_params();
+            typedef libiop::p761_plus::Fp FieldT;
             libiop::aurora_isogeny_pok<FieldT>(m, n);
         } else {
             std::cerr << "invalid base_field: " << base_field << std::endl;
