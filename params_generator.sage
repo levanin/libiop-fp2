@@ -38,7 +38,7 @@ class FpParam():
 
 
 class Fp2Param():
-    def __init__(self, p, num_bits, euler, s, t, t_minus_1_over_2, mul_gen, root_of_unity, nqr, nqr_to_t, frob_c0, frob_c1):
+    def __init__(self, p, num_bits, euler, s, t, t_minus_1_over_2, mul_gen, root_of_unity, nqr, nqr_to_t, frob_c0, frob_c1, non_residue):
         self.p = p
         self.num_bits = num_bits
         self.euler = euler
@@ -51,6 +51,7 @@ class Fp2Param():
         self.nqr_to_t = nqr_to_t
         self.frob_c0 = frob_c0
         self.frob_c1 = frob_c1
+        self.non_residue = non_residue
 
     def print_libiop(self, name, simplify=True):
         print(">>> Fp2 libiop parameters for {} <<<".format(name))
@@ -58,7 +59,7 @@ class Fp2Param():
         print("Fp2::s = {};".format(self.s))
         print("Fp2::t = libff::bigint<2*limbs>(\"{}\");".format(self.t))
         print("Fp2::t_minus_1_over_2 = libff::bigint<2*limbs>(\"{}\");".format(self.t_minus_1_over_2))
-        print("Fp2::non_residue = Fp(\"{}\");".format(self.p - 1))
+        print("Fp2::non_residue = Fp(\"{}\");".format(self.non_residue))
         print("Fp2::nqr = Fp2(Fp(\"{}\"),Fp(\"{}\"));".format(self.nqr.polynomial().list()[0], self.nqr.polynomial().list()[1]))
         print("Fp2::nqr_to_t = Fp2(Fp(\"{}\"),Fp(\"{}\"));".format(self.nqr_to_t.polynomial().list()[0], self.nqr_to_t.polynomial().list()[1]))
         print("Fp2::multiplicative_generator = Fp2(Fp(\"{}\"),Fp(\"{}\"));".format(self.mul_gen.polynomial().list()[0], self.mul_gen.polynomial().list()[1]))
@@ -171,7 +172,7 @@ def generate_libff_Fp2_model_params(prime, a=None):
     #frobenius to even powers is always identity map
     # print('Frobenius_coeffs_c1[0] = {}'.format(1))
     # print('Frobenius_coeffs_c1[1] = {}'.format(prime-1))
-    return Fp2Param(prime, num_bits, euler, s, t, t_minus_1_over_2, multiplicative_gen, root_of_unity, nqr, nqr_to_t, 1, fp_quadratic_nonresidue)
+    return Fp2Param(prime, num_bits, euler, s, t, t_minus_1_over_2, multiplicative_gen, root_of_unity, nqr, nqr_to_t, 1, prime-1, fp_quadratic_nonresidue)
 
 # Not in use
 # generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
@@ -181,7 +182,7 @@ def generate_libff_Fp2_model_params(prime, a=None):
 # print()
 
 #generate_libff_Fp_model_params(2^218*3^138*37 + 1).print_libiop("p441+")
-#generate_libff_Fp2_model_params(2^218*3^138*37 + 1,218).print_libiop("p441+x", False)
+generate_libff_Fp2_model_params(2^218*3^138*37 + 1,218).print_libiop("p441+x", False)
 #generate_libff_Fp_model_params(2^252*3^159*31 + 1).print_libiop("p509+")
 generate_libff_Fp2_model_params(2^252*3^159*31 + 1,252).print_libiop("p509+x", False)
 #generate_libff_Fp_model_params((2^307)*(3^192)*119 + 1).print_libiop("p619+")
