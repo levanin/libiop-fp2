@@ -16,6 +16,7 @@ namespace libiop {
         const mp_size_t limbs = 7;
         libff::bigint<limbs> modulus("10851104105637278369047660385087127166874086428230148851028658457275118230263397666330776202291906589979031247851640913067987741704193");
         typedef libff::Fp_model<limbs, modulus> Fp;
+        typedef libff::Fp2_model<limbs, modulus> Fp2;
         void init_params();
     }
 
