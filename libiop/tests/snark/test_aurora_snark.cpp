@@ -180,8 +180,8 @@ void test_isogeny_pok_fp(size_t m, size_t n) {
 }
 
 TEST(AuroraSnarkFpTest441, SimpleTest) {
-    p441_plus::init_params();
-    typedef p441_plus::Fp FieldT;
+    p441plus::init_params();
+    typedef p441plus::Fp FieldT;
     test_isogeny_pok_fp<FieldT>(4096, 4095);
 }
 
@@ -252,27 +252,27 @@ void test_isogeny_pok_fp2(size_t m, size_t n) {
 }
 
 TEST(AuroraSnarkFp2Test434, SimpleTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
     test_isogeny_pok_fp2<FieldT>(1024, 1023);
 }
 
 
 TEST(AuroraSnarkFp2Test503, SimpleTest) {
-    p503::init_params();
-    typedef p503::Fp2 FieldT;
+    p503x::init_params();
+    typedef p503x::Fp2 FieldT;
     test_isogeny_pok_fp2<FieldT>(1024, 1023);
 }
 
 TEST(AuroraSnarkFp2Test610, SimpleTest) {
-    p610::init_params();
-    typedef p610::Fp2 FieldT;
+    p610x::init_params();
+    typedef p610x::Fp2 FieldT;
     test_isogeny_pok_fp2<FieldT>(2048, 2047);
 }
 
 TEST(AuroraSnarkFp2Test751, SimpleTest) {
-    p751::init_params();
-    typedef p751::Fp2 FieldT;
+    p751x::init_params();
+    typedef p751x::Fp2 FieldT;
     test_isogeny_pok_fp2<FieldT>(2048, 2047);
 }
 

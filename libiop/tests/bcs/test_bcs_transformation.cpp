@@ -435,8 +435,8 @@ TEST(MultiplicativeSingleOracleTest, BCSTest) {
 
 TEST(MultiplicativeSingleOracleFp2Test, BCSTest) {
     /* TODO: Add more complex test cases */
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
     size_t dim = 6;
     field_subset<FieldT> codeword_domain(1ull << dim);
     size_t num_oracles = 1;

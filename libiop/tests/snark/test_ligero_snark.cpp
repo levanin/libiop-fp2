@@ -88,8 +88,8 @@ TEST(InterleavedR1CSSnarkMultiplicativeTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkFpTest, SimpleTest) {
     /* Set up R1CS */
-    p441_plus::init_params();
-    typedef p441_plus::Fp FieldT;
+    p441plus::init_params();
+    typedef p441plus::Fp FieldT;
 
     const size_t num_constraints = 4096;
     const size_t num_inputs = 1;
@@ -135,8 +135,8 @@ TEST(InterleavedR1CSSnarkFpTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkFp2Test, SimpleTest) {
     /* Set up R1CS */
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     const size_t num_constraints = 1024;
     const size_t num_inputs = 1;

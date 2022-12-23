@@ -121,8 +121,8 @@ TEST(R1CSMultiplicativeProtocolTest, R1CSTest) {
 }
 
 TEST(R1CSMultiplicativeFp2ProtocolTest, R1CSTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
     run_test<FieldT>(multiplicative_coset_type);
 }
 

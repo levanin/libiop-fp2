@@ -250,8 +250,8 @@ TEST(InterleavedLincheckOTTrueMultiplicativeTest, SimpleTest) {
 }
 
 TEST(InterleavedLincheckOTTrueMultiplicativeFp2Test, SimpleTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     for (size_t vector_size = 16; vector_size <= 16; vector_size *= 2)
     {

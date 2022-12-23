@@ -157,8 +157,8 @@ TEST(LigeroTrueMultiplicativeTest, SimpleTest) {
 }
 
 TEST(LigeroTrueMultiplicativeFp2Test, SimpleTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     std::size_t num_constraints = 16;
     std::size_t num_inputs = 8;

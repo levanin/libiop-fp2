@@ -87,8 +87,8 @@ TEST(MultiplicativeSubgroupTest, SimpleTest) {
 }
 
 TEST(MultiplicativeSubgroupFp2Test, SimpleTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     for (size_t domain_dim = 1; domain_dim < 10; domain_dim++)
     {
@@ -157,8 +157,8 @@ TEST(MultiplicativeCosetTest, SimpleTest) {
 }
 
 TEST(MultiplicativeCosetFp2Test, SimpleTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     for (size_t m = 1; m <= 11; ++m)
     {

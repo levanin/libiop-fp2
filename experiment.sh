@@ -4,7 +4,7 @@ set -e
 set -u
 
 BIN=$1
-EXPERIMENT=$2
+EXPERIMENT=$2 # this is the csv file that contains the experiments to run
 PREFIX="====>"
 
 echo "proof_system,base_field,m,n,prover_time,verifier_time,proof_size"

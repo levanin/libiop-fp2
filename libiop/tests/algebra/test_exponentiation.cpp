@@ -67,8 +67,8 @@ TEST(ExponentiationTest, CosetElementPowersTest) {
 }
 
 TEST(ExponentiationTest, CosetElementFp2PowersTest) {
-    p434::init_params();
-    typedef p434::Fp2 FieldT;
+    p434x::init_params();
+    typedef p434x::Fp2 FieldT;
 
     FieldT two(-1, 0);
     FieldT out;

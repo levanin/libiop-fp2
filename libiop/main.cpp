@@ -9,16 +9,28 @@
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/algebra/isogeny_field.hpp"
 
+// taken from https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+unsigned int next_pow2(unsigned int v) {
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v++;
+    return v;
+}
+
 namespace libiop {
     template<typename FieldT>
-    void aurora_isogeny_pok(size_t m, size_t n) {
+    void aurora_isogeny_pok(size_t m, size_t n, size_t secpar) {
         libff::inhibit_profiling_counters = true;
         typedef binary_hash_digest hash_type;
 
-        const size_t num_constraints = m;
-        const size_t num_variables = n;
+        const size_t num_constraints = next_pow2(m);
+        const size_t num_variables = next_pow2(n)-1;
         const size_t num_inputs = num_constraints - num_variables;
-        const size_t security_parameter = 128;
+        const size_t security_parameter = secpar;
         const size_t RS_extra_dimensions = 2;
         const size_t FRI_localization_parameter = 3;
         const LDT_reducer_soundness_type ldt_reducer_soundness_type = LDT_reducer_soundness_type::optimistic_heuristic;
@@ -78,7 +90,7 @@ namespace libiop {
     }
 
     template<typename FieldT>
-    void ligero_isogeny_pok(size_t m, size_t n) {
+    void ligero_isogeny_pok(size_t m, size_t n, size_t secpar) {
         const size_t num_constraints = m;
         const size_t num_variables = n;
         const size_t num_inputs = num_constraints - num_variables;
@@ -95,7 +107,7 @@ namespace libiop {
 
         /* Actual SNARK test */
         ligero_snark_parameters<FieldT, binary_hash_digest> parameters;
-        parameters.security_level_ = 128;
+        parameters.security_level_ = secpar;
         parameters.height_width_ratio_ = 0.001;
         parameters.RS_extra_dimensions_ = 2;
         parameters.make_zk_ = true;
@@ -135,7 +147,7 @@ int main(int argc, const char* argv[]) {
             ("base_field", "the base field of the circuit in the format p{num_bits}{x,+,+x,}", cxxopts::value<std::string>()->default_value("p434x"))
             ("m", "number of constraints", cxxopts::value<size_t>()->default_value("1024"))
             ("n", "number of variables", cxxopts::value<size_t>()->default_value("1023"))
-            ("h,help", "pring usage")
+            ("h,help", "print usage")
             ;
 
     auto result = options.parse(argc, argv);
@@ -150,37 +162,37 @@ int main(int argc, const char* argv[]) {
 
     if ("aurora" == proof_system) {
         if ("p434x" == base_field) {
-            libiop::p434::init_params();
-            typedef libiop::p434::Fp2 FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p434x::init_params();
+            typedef libiop::p434x::Fp2 FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p441+" == base_field) {
-            libiop::p441_plus::init_params();
-            typedef libiop::p441_plus::Fp FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p441plus::init_params();
+            typedef libiop::p441plus::Fp FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p503x" == base_field) {
-            libiop::p503::init_params();
-            typedef libiop::p503::Fp2 FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p503x::init_params();
+            typedef libiop::p503x::Fp2 FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p509+" == base_field) {
             libiop::p509_plus::init_params();
             typedef libiop::p509_plus::Fp FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p610x" == base_field) {
-            libiop::p610::init_params();
-            typedef libiop::p610::Fp2 FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
-        } else if ("p619plus" == base_field) {
-            libiop::p619_plus::init_params();
-            typedef libiop::p619_plus::Fp FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p610x::init_params();
+            typedef libiop::p610x::Fp2 FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 192);
+        } else if ("p619+" == base_field) {
+            libiop::p619plus::init_params();
+            typedef libiop::p619plus::Fp FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 192);
         } else if ("p751x" == base_field) {
-            libiop::p751::init_params();
-            typedef libiop::p751::Fp2 FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p751x::init_params();
+            typedef libiop::p751x::Fp2 FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 256);
         } else if ("p761+" == base_field) {
-            libiop::p761_plus::init_params();
-            typedef libiop::p761_plus::Fp FieldT;
-            libiop::aurora_isogeny_pok<FieldT>(m, n);
+            libiop::p761plus::init_params();
+            typedef libiop::p761plus::Fp FieldT;
+            libiop::aurora_isogeny_pok<FieldT>(m, n, 256);
         } else {
             std::cerr << "invalid base_field: " << base_field << std::endl;
             std::cerr << options.help() << std::endl;
@@ -189,25 +201,37 @@ int main(int argc, const char* argv[]) {
 
     } else if ("ligero" == proof_system) {
         if ("p434x" == base_field) {
-            libiop::p434::init_params();
-            typedef libiop::p434::Fp2 FieldT;
-            libiop::ligero_isogeny_pok<FieldT>(m, n);
+            libiop::p434x::init_params();
+            typedef libiop::p434x::Fp2 FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p441+" == base_field) {
-            libiop::p441_plus::init_params();
-            typedef libiop::p441_plus::Fp FieldT;
-            libiop::ligero_isogeny_pok<FieldT>(m, n);
+            libiop::p441plus::init_params();
+            typedef libiop::p441plus::Fp FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p503x" == base_field) {
-            libiop::p503::init_params();
-            typedef libiop::p503::Fp2 FieldT;
-            libiop::ligero_isogeny_pok<FieldT>(m, n);
+            libiop::p503x::init_params();
+            typedef libiop::p503x::Fp2 FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 128);
+        } else if ("p509+" == base_field) {
+            libiop::p509_plus::init_params();
+            typedef libiop::p509_plus::Fp FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 128);
         } else if ("p610x" == base_field) {
-            libiop::p610::init_params();
-            typedef libiop::p610::Fp2 FieldT;
-            libiop::ligero_isogeny_pok<FieldT>(m, n);
+            libiop::p610x::init_params();
+            typedef libiop::p610x::Fp2 FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 192);
+        } else if ("p619+" == base_field) {
+            libiop::p619plus::init_params();
+            typedef libiop::p619plus::Fp FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 192);
         } else if ("p751x" == base_field) {
-            libiop::p751::init_params();
-            typedef libiop::p751::Fp2 FieldT;
-            libiop::ligero_isogeny_pok<FieldT>(m, n);
+            libiop::p751x::init_params();
+            typedef libiop::p751x::Fp2 FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 256);
+        } else if ("p761+" == base_field) {
+            libiop::p761plus::init_params();
+            typedef libiop::p761plus::Fp FieldT;
+            libiop::ligero_isogeny_pok<FieldT>(m, n, 256);
         } else {
             std::cerr << "invalid base_field: " << base_field << std::endl;
             std::cerr << options.help() << std::endl;
