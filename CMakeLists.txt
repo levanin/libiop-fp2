@@ -9,7 +9,7 @@ project (libiop
   LANGUAGES CXX C)
 
 # Performance options
-option(PERFORMANCE "Enable link-time and aggressive optimizations" ON)
+option(PERFORMANCE "Enable link-time and aggressive optimizations" OFF)
 option(MULTICORE "Enable parallelized execution, using OpenMP" OFF)
 option(USE_ASM "Use architecture-specific optimized assembly code" ON)
 option(
