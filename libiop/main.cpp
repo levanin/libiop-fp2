@@ -29,7 +29,8 @@ namespace libiop {
 
         const size_t num_constraints = next_pow2(m);
         const size_t num_variables = next_pow2(n)-1;
-        const size_t num_inputs = num_constraints - num_variables;
+        // n is num_variables + num_inputs, so we just set num_inputs = 1
+        const size_t num_inputs = 1;
         const size_t security_parameter = secpar;
         const size_t RS_extra_dimensions = 2;
         const size_t FRI_localization_parameter = 3;
@@ -91,9 +92,10 @@ namespace libiop {
 
     template<typename FieldT>
     void ligero_isogeny_pok(size_t m, size_t n, size_t secpar) {
+        // n is num_variables + num_inputs, so we just set num_inputs = 1
         const size_t num_constraints = m;
         const size_t num_variables = n;
-        const size_t num_inputs = num_constraints - num_variables;
+        const size_t num_inputs = 1;
         std::size_t constraint_dim = 302; // what is this?
         r1cs_example<FieldT> ex = generate_r1cs_example<FieldT>(num_constraints, num_inputs, num_variables);
 
