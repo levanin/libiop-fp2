@@ -1,3 +1,31 @@
+This is a fork of [libiop](https://github.com/scipr-lab/libiop)
+which supports proofs in quadratic extension fields.
+It is used in the paper [Efficient Isogeny Proofs Using Generic Techniques](https://eprint.iacr.org/2023/037)
+by Kelong Cong, Yi-Fu Lai and Shai Levin.
+
+# Installation
+
+Please follow the original `libiop`
+instructions [here](https://github.com/levanin/libiop-other-primes/blob/master/INSTALL.md).
+Note that we changed two of the submodules `libff` and `libfqfft`
+to support the fields we need.
+
+# Running
+
+We included a `main` executable which can be used to reproduce our experiments,
+which sould be built as a part of the installation process.
+Running the experiments can be done from the project root directory using
+```
+./experiment.sh build/libiop/main params.csv
+```
+assuming the executable is `build/libiop/main`.
+
+See below for the original libiop documentation.
+
+
+_______________________________________________________________________________
+
+
 <h1 align="center">libiop: a C++ library for IOP-based zkSNARKs</h1>
 <p align="center">
    <a href="https://github.com/scipr-lab/libiop/blob/master/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
