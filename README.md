@@ -1,3 +1,9 @@
+<h1 align="center">libiop: a C++ library for IOP-based zkSNARKs</h1>
+<p align="center">
+   <a href="https://github.com/scipr-lab/libiop/blob/master/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
+   <a href="https://github.com/scipr-lab/libiop/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+</p>
+
 This is a fork of [libiop](https://github.com/scipr-lab/libiop)
 which supports proofs in quadratic extension fields.
 It is used in the paper [Efficient Isogeny Proofs Using Generic Techniques](https://eprint.iacr.org/2023/037)
@@ -7,8 +13,6 @@ by Kelong Cong, Yi-Fu Lai and Shai Levin.
 
 Please follow the original `libiop`
 instructions [here](https://github.com/levanin/libiop-other-primes/blob/master/INSTALL.md).
-Note that we changed two of the submodules `libff` and `libfqfft`
-to support the fields we need.
 
 # Running
 
@@ -20,17 +24,28 @@ Running the experiments can be done from the project root directory using
 ```
 assuming the executable is `build/libiop/main`.
 
+# Changes
+
+The original repo had submodules:
+```
+ e69890125746cdaf25b5b51227d96678f76479fe ../depends/ate-pairing (v1.2-70-ge698901)
+ d845b7b3a27d54ad96280a29d61fa8988d4fddcf ../depends/benchmark (v1.6.2)
+ 58d77fa8070e8cec2dc1ed015d66b454c8d78850 ../depends/gtest (release-1.8.0-2986-g58d77fa8)
+ 9769030a06b7ab933d6c064db120019decd359f1 ../depends/libff (v0.2.1-43-g9769030)
+ 7d460caa27b87574fe0e8144e6a3a66b7bcfe770 ../depends/libfqfft (remotes/origin/staging)
+ 811f4959ee0dd36a3ccedd2d4d7460472dd19a14 ../depends/xbyak (v3.71-528-g811f495)
+```
+
+But we've changed the libff and libfqfft to alternative versions that work with Fp2.
+- https://github.com/kc1212/libff.git
+- https://github.com/kc1212/libfqfft.git
+
+
 See below for the original libiop documentation.
 
 
 _______________________________________________________________________________
 
-
-<h1 align="center">libiop: a C++ library for IOP-based zkSNARKs</h1>
-<p align="center">
-   <a href="https://github.com/scipr-lab/libiop/blob/master/AUTHORS"><img src="https://img.shields.io/badge/authors-SCIPR%20Lab-orange.svg"></a>
-   <a href="https://github.com/scipr-lab/libiop/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-</p>
 
 This library provides zkSNARK constructions that are __transparent__ and __post-quantum__, and moreover rely only on __lightweight symmetric cryptography__ (any [cryptographic hash function](https://en.wikipedia.org/wiki/Cryptographic_hash_function)).
 
@@ -206,20 +221,4 @@ a Google Faculty Award;
 the Israel Science Foundation;
 the UC Berkeley Center for Long-Term Cybersecurity;
 and donations from the Ethereum Foundation, the Interchain Foundation, and Qtum.
-
-## Changes
-
-The original repo had submodules:
-```
- e69890125746cdaf25b5b51227d96678f76479fe ../depends/ate-pairing (v1.2-70-ge698901)
- d845b7b3a27d54ad96280a29d61fa8988d4fddcf ../depends/benchmark (v1.6.2)
- 58d77fa8070e8cec2dc1ed015d66b454c8d78850 ../depends/gtest (release-1.8.0-2986-g58d77fa8)
- 9769030a06b7ab933d6c064db120019decd359f1 ../depends/libff (v0.2.1-43-g9769030)
- 7d460caa27b87574fe0e8144e6a3a66b7bcfe770 ../depends/libfqfft (remotes/origin/staging)
- 811f4959ee0dd36a3ccedd2d4d7460472dd19a14 ../depends/xbyak (v3.71-528-g811f495)
-```
-
-But we've changed the libff and libfqfft to alternative versions that work with Fp2.
-- https://github.com/kc1212/libff.git
-- https://github.com/kc1212/libfqfft.git
 
