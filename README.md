@@ -20,7 +20,7 @@ We included a `main` executable which can be used to reproduce our experiments,
 which sould be built as a part of the installation process.
 Running the experiments can be done from the project root directory using
 ```
-./experiment.sh build/libiop/main params.csv
+./scripts/experiment.sh build/libiop/main params.csv
 ```
 assuming the executable is `build/libiop/main`.
 
